@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-container">
+  <h2>Inicia Sesión - Cliente</h2>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="flashes">
+      {% for message in messages %}
+      <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %}
+  {% endwith %}
+
+  <form method="POST">
+    <label for="usuario">Usuario:</label>
+    <input type="text" id="usuario" name="usuario" required>
+    
+    <label for="contraseña">Contraseña:</label>
+    <input type="password" id="contraseña" name="contraseña" required>
+    
+    <button type="submit">Iniciar Sesión</button>
+  </form>
+
+  <p>¿No tienes cuenta? <a href="{{ url_for('registro_usuario') }}">Regístrate aquí</a></p>
+  <p><a href="{{ url_for('login_admin') }}">¿Eres administrador?</a></p>
+</div>
+{% endblock %}

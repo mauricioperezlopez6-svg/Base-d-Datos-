@@ -1,0 +1,33 @@
+@use 'variables' as *;
+
+// ================================
+// Layout: contenedor y grid
+@use 'variables' as *;
+
+// ================================
+
+.container {
+  max-width: $max-width;
+  margin: $spacing-xxl auto;
+  padding: 0 $spacing-lg;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: $spacing-lg;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: $spacing-md;
+  margin-top: $spacing-md;
+}
+
+.footer {
+  text-align: center;
+  padding: $spacing-xl;
+  color: $color-text-muted;
+}

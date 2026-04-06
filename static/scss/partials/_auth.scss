@@ -1,0 +1,64 @@
+@use 'variables' as *;
+
+// ================================
+// Autenticación (login / registro)
+@use 'variables' as *;
+
+// ================================
+
+.auth-container {
+  max-width: $max-width-auth;
+  margin: 50px auto;
+  background: $color-white;
+  padding: $spacing-2xl;
+  border-radius: $radius-lg;
+  border: 1px solid $color-border;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  label {
+    font-weight: 500;
+    margin-top: $spacing-md;
+  }
+
+  input {
+    padding: $spacing-md 12px;
+    border: 1px solid $color-border-input;
+    border-radius: $radius-sm;
+    font-size: $font-size-base;
+  }
+
+  button {
+    padding: 12px;
+    background: $color-primary;
+    border: none;
+    border-radius: $radius-sm;
+    color: $color-white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: $font-size-base;
+
+    &:hover {
+      background: $color-primary-dark;
+    }
+  }
+
+  p {
+    margin-top: 20px;
+    text-align: center;
+    color: $color-text-muted;
+  }
+
+  a {
+    color: $color-primary;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

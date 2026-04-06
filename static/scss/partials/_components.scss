@@ -1,0 +1,97 @@
+@use 'variables' as *;
+
+// ================================
+// Componentes reutilizables
+@use 'variables' as *;
+
+// ================================
+
+// --- Tarjeta ---
+.card {
+  background: $color-white;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+// --- Etiqueta tipo pill ---
+.muted {
+  color: $color-text-muted;
+}
+
+.pill {
+  background: $color-pill-bg;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-pill;
+  font-size: $font-size-small;
+}
+
+// --- Botones ---
+.btn {
+  border: 1px solid $color-border-input;
+  background: $color-white;
+  padding: $spacing-sm 12px;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  text-decoration: none;
+  color: $color-text;
+
+  &.primary {
+    border-color: $color-primary;
+    background: $color-primary;
+    color: $color-white;
+  }
+}
+
+.btn-primary {
+  background: $color-primary;
+  color: $color-white;
+  border-color: $color-primary !important;
+
+  &:hover {
+    background: $color-primary-dark;
+  }
+}
+
+.btn-secondary {
+  background: #f0f0f0;
+  color: $color-text;
+  border-color: $color-border-input !important;
+
+  &:hover {
+    background: #e0e0e0;
+  }
+}
+
+.btn-danger {
+  background: $color-danger;
+  color: $color-white;
+  border-color: $color-danger !important;
+  padding: 6px 12px;
+  font-size: $font-size-medium;
+
+  &:hover {
+    background: $color-danger-dark;
+  }
+}
+
+// --- Input de cantidad ---
+.qty {
+  width: 70px;
+  padding: 7px $spacing-sm;
+  border-radius: $radius-sm;
+  border: 1px solid $color-border-input;
+}
+
+// --- Alertas ---
+.alerts {
+  margin-bottom: $spacing-md;
+}
+
+.alert {
+  background: $color-alert-bg;
+  border: 1px solid $color-alert-border;
+  padding: $spacing-md;
+  border-radius: $radius-md;
+}

@@ -1,0 +1,21 @@
+@use 'variables' as *;
+
+// ================================
+// Checkout / Carrito
+@use 'variables' as *;
+
+// ================================
+
+.checkout {
+  margin-top: $spacing-lg;
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.checkoutform {
+  display: flex;
+  gap: $spacing-md;
+  flex-wrap: wrap;
+}

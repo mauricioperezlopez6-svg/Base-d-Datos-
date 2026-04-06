@@ -1,0 +1,15 @@
+{
+  "name": "mi_tienda",
+  "version": "1.0.0",
+  "description": "Tienda en línea con Flask y Sass",
+  "scripts": {
+    "sass": "sass static/scss/styles.scss static/styles.css",
+    "sass:watch": "sass --watch static/scss/styles.scss:static/styles.css"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "sass": "^1.85.1"
+  }
+}
