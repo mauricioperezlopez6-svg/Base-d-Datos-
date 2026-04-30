@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="padding: 4rem 2rem; max-width: 900px; margin: 0 auto; min-height: 60vh;">
+    <h2 class="syne" style="font-size: 40px; color: var(--ink); border-bottom: 2px solid var(--ink); padding-bottom: 1rem;">Tu Carrito <em style="color: var(--accent); font-family: 'Cormorant Garamond', serif;">Circular</em></h2>
+
+    {% if productos %}
+        <div style="background: white; border: 1px solid var(--cream); padding: 2rem; margin-top: 2rem;">
+            {% for p in productos %}
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--paper); padding: 1.5rem 0;">
+                <div style="display: flex; align-items: center; gap: 1.5rem;">
+                    <div style="width: 80px; height: 80px; background: var(--paper); display: flex; align-items: center; justify-content: center; padding: 10px;">
+                        <img src="{{ url_for('static', filename='img/' + p.imagen) }}" style="max-width: 100%; max-height: 100%; object-fit: contain; mix-blend-mode: multiply;">
+                    </div>
+                    <div>
+                        <div class="mono" style="font-size: 10px; color: var(--sand); text-transform: uppercase;">{{ p.categoria }}</div>
+                        <h4 class="syne" style="margin: 0; font-size: 20px;">{{ p.nombre }}</h4>
+                    </div>
+                </div>
+                <div class="syne" style="font-size: 24px; font-weight: bold; color: var(--accent);">${{ p.precio }}</div>
+            </div>
+            {% endfor %}
+
+            <div style="margin-top: 3rem; text-align: right;">
+                <div class="mono" style="color: var(--warm-mid);">Total a pagar:</div>
+                <div class="syne" style="font-size: 40px; font-weight: 800; color: var(--ink); margin-bottom: 2rem;">${{ total }}</div>
+                <div style="display: flex; justify-content: flex-end; gap: 1rem;">
+                    <form action="{{ url_for('vaciar_carrito') }}" method="POST"><button type="submit" style="background: transparent; border: 1px solid var(--warm-mid); color: var(--warm-mid); padding: 15px 30px; font-family: 'DM Mono', monospace; cursor: pointer; text-transform: uppercase;">Vaciar Carrito</button></form>
+                    <button style="background: var(--accent); color: white; border: none; padding: 15px 40px; font-family: 'DM Mono', monospace; text-transform: uppercase; font-weight: bold; cursor: pointer;">Pagar Ahora</button>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div style="text-align: center; padding: 4rem 2rem; background: white; border: 1px dashed var(--cream); margin-top: 2rem;">
+            <div style="font-size: 40px;">🛒</div>
+            <h3 class="syne">Tu carrito está vacío</h3>
+            <a href="{{ url_for('index') }}" style="display: inline-block; background: var(--ink); color: white; text-decoration: none; padding: 12px 30px; font-family: 'DM Mono', monospace; text-transform: uppercase; margin-top: 1rem;">Ir al Catálogo</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

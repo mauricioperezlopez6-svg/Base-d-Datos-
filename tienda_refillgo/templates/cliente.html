@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="max-width: 900px; margin: 60px auto; padding: 0 2rem;">
+    <div style="display: flex; align-items: center; gap: 3rem; margin-bottom: 4rem; padding-bottom: 3rem; border-bottom: 1px solid var(--cream);" class="reveal">
+        <div style="width: 120px; height: 120px; background: var(--accent); color: var(--white); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 48px; box-shadow: 0 10px 25px rgba(46, 125, 50, 0.2);">
+            👤
+        </div>
+        <div>
+            <div class="mono" style="color: var(--accent); font-size: 12px; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0.5rem;">Panel de Cliente</div>
+            <h1 class="syne" style="font-size: 42px; margin-bottom: 0.5rem;">{{ usuario.nombre }}</h1>
+            <p class="mono" style="color: var(--warm-mid);">{{ usuario.email }} • {{ usuario.ubicacion }}</p>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 4rem;" class="reveal">
+        <div style="background: var(--white); padding: 3rem; border: 1px solid var(--cream); text-align: center;">
+            <div class="mono" style="font-size: 11px; color: var(--warm-mid); margin-bottom: 1.5rem; text-transform: uppercase;">Ciclos Completados</div>
+            <div class="syne" style="font-size: 56px; font-weight: 800; color: var(--ink);">{{ usuario.pedidos }}</div>
+            <p style="font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--warm-mid); margin-top: 1rem;">Pedidos entregados en envases retornables.</p>
+        </div>
+        
+        <div style="background: var(--ink); padding: 3rem; color: var(--white); text-align: center;">
+            <div class="mono" style="font-size: 11px; color: var(--accent); margin-bottom: 1.5rem; text-transform: uppercase;">Impacto Refill</div>
+            <div class="syne" style="font-size: 56px; font-weight: 800;">{{ usuario.pedidos * 3 }}</div>
+            <p style="font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--sand); margin-top: 1rem;">Botellas de plástico de un solo uso evitadas.</p>
+        </div>
+    </div>
+
+    <section class="reveal">
+        <h2 class="syne" style="font-size: 24px; margin-bottom: 2rem;">Historial de <em>Refills</em></h2>
+        <div style="border: 1px solid var(--cream); background: var(--white);">
+            <div style="display: grid; grid-template-columns: 1fr auto auto; padding: 1.5rem 2rem; border-bottom: 1px solid var(--cream); background: var(--paper);" class="mono">
+                <span style="font-size: 11px;">DETALLE</span>
+                <span style="font-size: 11px; margin-right: 3rem;">ESTADO</span>
+                <span style="font-size: 11px;">FECHA</span>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr auto auto; padding: 2rem; border-bottom: 1px solid var(--paper); align-items: center;">
+                <div style="font-family: 'Cormorant Garamond', serif; font-size: 18px;">Kit de Limpieza General (Detergente + Suavizante)</div>
+                <div class="mono" style="font-size: 11px; background: var(--accent-lt); color: var(--accent); padding: 4px 12px; margin-right: 2rem;">ENTREGADO</div>
+                <div class="mono" style="font-size: 13px; color: var(--warm-mid);">24/04/2026</div>
+            </div>
+        </div>
+    </section>
+
+    <div style="margin-top: 4rem; text-align: center;">
+        <a href="{{ url_for('index') }}" class="hero-cta mono" style="text-decoration: none;">Seguir Comprando</a>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Activamos las animaciones de entrada
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="padding: 4rem 2rem; max-width: 800px; margin: 0 auto; font-family: 'DM Mono', monospace; min-height: 60vh;">
+    <h2 class="syne" style="font-size: 32px; color: var(--ink); margin-bottom: 2rem; border-bottom: 2px solid var(--ink); padding-bottom: 1rem;">Editar Producto <span style="color: var(--warm-mid);">#0{{ p.id }}</span></h2>
+    
+    <div style="background: white; padding: 3rem; border: 1px solid var(--cream); box-shadow: 0 4px 6px rgba(0,0,0,0.02);">
+        <form method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1.5rem;">
+            
+            <div>
+                <label style="font-size: 10px; text-transform: uppercase; color: var(--warm-mid);">Nombre del Producto</label>
+                <input type="text" name="nombre" value="{{ p.nombre }}" required style="width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid var(--cream); font-family: 'DM Mono', monospace; margin-top: 5px;">
+            </div>
+
+            <div>
+                <label style="font-size: 10px; text-transform: uppercase; color: var(--warm-mid);">Descripción</label>
+                <textarea name="descripcion" rows="4" required style="width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid var(--cream); font-family: 'DM Mono', monospace; margin-top: 5px; resize: vertical;">{{ p.descripcion }}</textarea>
+            </div>
+            
+            <div>
+                <label style="font-size: 10px; text-transform: uppercase; color: var(--warm-mid);">Categoría</label>
+                <select name="categoria" required style="width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid var(--cream); font-family: 'DM Mono', monospace; margin-top: 5px; background: white;">
+                    <option value="limpieza" {% if p.categoria == 'limpieza' %}selected{% endif %}>Limpieza General</option>
+                    <option value="ropa" {% if p.categoria == 'ropa' %}selected{% endif %}>Cuidado de Ropa</option>
+                    <option value="cocina" {% if p.categoria == 'cocina' %}selected{% endif %}>Cocina</option>
+                    <option value="baño" {% if p.categoria == 'baño' %}selected{% endif %}>Baño</option>
+                    <option value="personal" {% if p.categoria == 'personal' %}selected{% endif %}>Cuidado Personal</option>
+                </select>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                <div>
+                    <label style="font-size: 10px; text-transform: uppercase; color: var(--warm-mid);">Precio ($)</label>
+                    <input type="number" name="precio" value="{{ p.precio }}" step="0.01" required style="width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid var(--cream); font-family: 'DM Mono', monospace; margin-top: 5px;">
+                </div>
+                <div>
+                    <label style="font-size: 10px; text-transform: uppercase; color: var(--warm-mid);">Stock (Lts)</label>
+                    <input type="number" name="stock" value="{{ p.stock }}" required style="width: 100%; box-sizing: border-box; padding: 12px; border: 1px solid var(--cream); font-family: 'DM Mono', monospace; margin-top: 5px;">
+                </div>
+            </div>
+            
+            <div style="background: var(--paper); padding: 1.5rem; border: 1px dashed var(--cream); display: flex; align-items: center; gap: 1.5rem;">
+                <img src="{{ url_for('static', filename='img/' + p.imagen) }}" style="width: 60px; height: 60px; object-fit: contain; mix-blend-mode: multiply;" onerror="this.style.display='none';">
+                <div style="flex-grow: 1;">
+                    <label style="font-size: 10px; text-transform: uppercase; color: var(--warm-mid); display: block; margin-bottom: 5px;">Actualizar Imagen (Opcional)</label>
+                    <input type="file" name="imagen_archivo" accept="image/*" style="width: 100%; font-size: 11px;">
+                </div>
+            </div>
+            
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem;">
+                <a href="{{ url_for('admin') }}" style="background: transparent; color: var(--warm-mid); border: 1px solid var(--warm-mid); padding: 12px 24px; text-decoration: none; text-transform: uppercase; font-size: 11px; transition: 0.3s;" onmouseover="this.style.color='var(--ink)'; this.style.borderColor='var(--ink)';" onmouseout="this.style.color='var(--warm-mid)'; this.style.borderColor='var(--warm-mid)';">Cancelar</a>
+                <button type="submit" style="background: var(--ink); color: white; padding: 12px 30px; border: none; cursor: pointer; text-transform: uppercase; font-family: 'DM Mono', monospace; font-size: 12px; font-weight: bold; transition: 0.3s;" onmouseover="this.style.background='var(--accent)'" onmouseout="this.style.background='var(--ink)'">Guardar Cambios</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div style="padding: 3rem 2rem; max-width: 1300px; margin: 0 auto; font-family: 'DM Mono', monospace; min-height: 70vh;">
+    
+    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 2.5rem; border-bottom: 2px solid var(--ink); padding-bottom: 1rem;">
+        <div>
+            <h2 class="syne" style="font-size: 36px; color: var(--ink); margin: 0;">Panel de Administración</h2>
+            <p style="color: var(--warm-mid); margin: 0.5rem 0 0 0; font-size: 14px;">Gestión de inventario y catálogo de Refill Go</p>
+        </div>
+        
+        <div style="display: flex; gap: 1.5rem;">
+            <div style="background: white; border: 1px solid var(--cream); padding: 1rem 1.5rem; text-align: right;">
+                <div style="font-size: 10px; color: var(--warm-mid); text-transform: uppercase;">Ventas del Mes</div>
+                <div class="syne" style="font-size: 20px; font-weight: bold; color: var(--accent);">${{ ventas[0].total }}</div>
+                <div style="font-size: 11px; color: var(--ink);">{{ ventas[0].ordenes }} órdenes</div>
+            </div>
+            <div style="background: #fff3e0; border: 1px solid #ffb74d; padding: 1rem 1.5rem; max-width: 200px;">
+                <div style="font-size: 10px; color: #e65100; text-transform: uppercase; font-weight: bold;">Aviso de Sistema</div>
+                <div style="font-size: 11px; color: #e65100; margin-top: 5px;">{{ avisos }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 2.5fr; gap: 2.5rem;">
+        
+        <div style="background: white; padding: 2rem; border: 1px solid var(--cream); box-shadow: 0 4px 6px rgba(0,0,0,0.02); height: fit-content; position: sticky; top: 100px;">
+            <h3 class="syne" style="margin-top: 0; font-size: 22px; border-bottom: 1px solid var(--paper); padding-bottom: 1rem;">Agregar Producto</h3>
+            
+            <form method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 1.2rem; margin-top: 1.5rem;">
+                
+                <div>
+                    <label style="font-size: 10px; text-transform: uppercase; color: var(--warm-mid);">Nombre del Producto</label>
+                    <input type="text" name="nombre" required style="width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid var(--cream); font-family: 'DM Mono', monospace; margin-top: 5px;">
+                </div>
+
+                <div>
+                    <label style="font-size: 10px; text-transform: uppercase; color: var(--warm-mid);">Descripción</label>
+                    <textarea name="descripcion" rows="3" required style="width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid var(--cream); font-family: 'DM Mono', monospace; margin-top: 5px; resize: vertical;"></textarea>
+                </div>
+                
+                <div>
+                    <label style="font-size: 10px; text-transform: uppercase; color: var(--warm-mid);">Categoría</label>
+                    <select name="categoria" required style="width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid var(--cream); font-family: 'DM Mono', monospace; margin-top: 5px; background: white;">
+                        <option value="" disabled selected>Seleccione...</option>
+                        <option value="limpieza">Limpieza General</option>
+                        <option value="ropa">Cuidado de Ropa</option>
+                        <option value="cocina">Cocina</option>
+                        <option value="baño">Baño</option>
+                        <option value="personal">Cuidado Personal</option>
+                    </select>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                    <div>
+                        <label style="font-size: 10px; text-transform: uppercase; color: var(--warm-mid);">Precio ($)</label>
+                        <input type="number" name="precio" step="0.01" required style="width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid var(--cream); font-family: 'DM Mono', monospace; margin-top: 5px;">
+                    </div>
+                    <div>
+                        <label style="font-size: 10px; text-transform: uppercase; color: var(--warm-mid);">Stock (Lts)</label>
+                        <input type="number" name="stock" required style="width: 100%; box-sizing: border-box; padding: 10px; border: 1px solid var(--cream); font-family: 'DM Mono', monospace; margin-top: 5px;">
+                    </div>
+                </div>
+                
+                <div>
+                    <label style="font-size: 10px; text-transform: uppercase; color: var(--warm-mid);">Imagen (Opcional)</label>
+                    <input type="file" name="imagen_archivo" accept="image/*" style="width: 100%; box-sizing: border-box; padding: 8px; border: 1px dashed var(--warm-mid); margin-top: 5px; font-size: 11px;">
+                </div>
+                
+                <button type="submit" name="agregar" style="background: var(--ink); color: white; padding: 15px; border: none; cursor: pointer; text-transform: uppercase; font-family: 'DM Mono', monospace; font-size: 12px; font-weight: bold; transition: 0.3s; margin-top: 1rem;" onmouseover="this.style.background='var(--accent)'" onmouseout="this.style.background='var(--ink)'">
+                    Guardar Producto
+                </button>
+            </form>
+        </div>
+
+        <div style="background: white; padding: 2rem; border: 1px solid var(--cream); box-shadow: 0 4px 6px rgba(0,0,0,0.02); overflow-x: auto;">
+            <h3 class="syne" style="margin-top: 0; font-size: 22px; border-bottom: 1px solid var(--paper); padding-bottom: 1rem; margin-bottom: 1.5rem;">Inventario Actual</h3>
+            
+            <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 13px;">
+                <thead>
+                    <tr style="background: var(--paper); border-bottom: 2px solid var(--cream);">
+                        <th style="padding: 12px; font-weight: bold; color: var(--ink);">ID</th>
+                        <th style="padding: 12px; font-weight: bold; color: var(--ink);">Nombre del Producto</th>
+                        <th style="padding: 12px; font-weight: bold; color: var(--ink);">Categoría</th>
+                        <th style="padding: 12px; font-weight: bold; color: var(--ink);">Precio</th>
+                        <th style="padding: 12px; font-weight: bold; color: var(--ink);">Stock</th>
+                        <th style="padding: 12px; font-weight: bold; color: var(--ink); text-align: center;">Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for p in productos %}
+                    <tr style="border-bottom: 1px solid var(--paper); transition: 0.2s;" onmouseover="this.style.background='#faf9f7'" onmouseout="this.style.background='transparent'">
+                        <td style="padding: 12px; color: var(--warm-mid);">#0{{ p.id }}</td>
+                        <td style="padding: 12px; font-weight: bold; color: var(--ink);">{{ p.nombre }}</td>
+                        <td style="padding: 12px;">
+                            <span style="background: var(--cream); padding: 4px 8px; border-radius: 4px; font-size: 10px; text-transform: uppercase;">
+                                {{ p.categoria }}
+                            </span>
+                        </td>
+                        <td style="padding: 12px; color: var(--accent); font-weight: bold;">${{ p.precio }}</td>
+                        <td style="padding: 12px;">
+                            {% if p.stock < 10 %}
+                                <span style="color: #d32f2f; font-weight: bold;">{{ p.stock }} L ⚠️</span>
+                            {% else %}
+                                {{ p.stock }} L
+                            {% endif %}
+                        </td>
+                        <td style="padding: 12px; text-align: center; display: flex; gap: 8px; justify-content: center; align-items: center;">
+                            <a href="{{ url_for('editar', id=p.id) }}" style="background: transparent; color: var(--accent); border: 1px solid var(--accent); padding: 6px 12px; text-decoration: none; font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; transition: 0.2s;" onmouseover="this.style.background='var(--accent)'; this.style.color='white';" onmouseout="this.style.background='transparent'; this.style.color='var(--accent)';">
+                                Editar
+                            </a>
+                            
+                            <form method="POST" style="margin: 0; display: inline-block;" onsubmit="return confirm('¿Está seguro de eliminar este producto?');">
+                                <input type="hidden" name="id" value="{{ p.id }}">
+                                <button type="submit" name="eliminar" style="background: transparent; color: #d32f2f; border: 1px solid #d32f2f; padding: 6px 12px; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; transition: 0.2s;" onmouseover="this.style.background='#d32f2f'; this.style.color='white';" onmouseout="this.style.background='transparent'; this.style.color='#d32f2f';">
+                                    Borrar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" style="padding: 2rem; text-align: center; color: var(--warm-mid);">
+                            No hay productos en el inventario. Agregue uno usando el formulario.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

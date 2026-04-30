@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+    .filter-btn { background: transparent; border: 1px solid var(--cream); color: var(--warm-mid); padding: 0.8rem 2rem; font-family: 'DM Mono', monospace; font-size: 11px; text-transform: uppercase; cursor: pointer; transition: 0.4s; }
+    .filter-btn:hover, .filter-btn.active { background: var(--ink); color: white; border-color: var(--ink); }
+    .product-card { transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.6s; }
+    .product-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+
+<section style="text-align: center; padding: 9rem 2rem; background: var(--paper); border-bottom: 1px solid var(--cream);">
+    <div class="reveal" style="display: flex; align-items: center; justify-content: center; gap: 2.5rem; max-width: 1100px; margin: 0 auto; flex-wrap: wrap;">
+        <div style="color: var(--accent); opacity: 0.8;">
+            <svg width="100" height="100" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 21C6.44772 21 6 20.5523 6 20V19C6 16.2386 8.23858 14 11 14H13C15.7614 14 18 16.2386 18 19V20C18 20.5523 17.5523 21 17 21H7Z" fill="currentColor"/><path d="M12 12C13.6569 12 15 10.6569 15 9C15 7.34315 13.6569 6 12 6C10.3431 6 9 7.34315 9 9C9 10.6569 10.3431 12 12 12Z" fill="currentColor"/><path d="M2 13.0909V11C2 6.02944 6.02944 2 11 2H13C17.9706 2 22 6.02944 22 11V13.0909C22 13.5614 21.6166 13.9404 21.1464 13.9351C17.311 13.892 14.108 10.8906 13.9351 7.14643C13.9404 6.61661 13.5614 6.22944 13.0909 6.22944H10.9091C10.4386 6.22944 10.0596 6.61661 10.0649 7.14643C9.89196 10.8906 6.68903 13.892 2.85357 13.9351C2.38339 13.9404 2 13.5614 2 13.0909Z" fill="currentColor"/></svg>
+        </div>
+        <div style="text-align: left;">
+            <h1 class="syne" style="font-size: 64px; color: var(--ink); margin: 0; font-weight: 800;">El Catálogo <em style="color: var(--accent); font-family: 'Cormorant Garamond', serif; font-weight: 400;">Circular</em></h1>
+            <p class="mono" style="color: var(--warm-mid); letter-spacing: 0.2em; text-transform: uppercase; font-size: 12px;">Insumos a granel • Aguascalientes</p>
+        </div>
+    </div>
+</section>
+
+<div style="position: sticky; top: 80px; z-index: 100; padding: 1.5rem; border-bottom: 1px solid var(--cream); background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); display: flex; gap: 1rem; justify-content: center;">
+    <button class="filter-btn active" onclick="filtrar('todos', this)">Todos</button>
+    <button class="filter-btn" onclick="filtrar('limpieza', this)">Limpieza</button>
+    <button class="filter-btn" onclick="filtrar('ropa', this)">Ropa</button>
+    <button class="filter-btn" onclick="filtrar('cocina', this)">Cocina</button>
+</div>
+
+<div class="catalog-grid" id="productGrid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 3rem; padding: 6rem 2rem; max-width: 1400px; margin: 0 auto;"></div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const productos = {{ productos_json | tojson | safe }};
+    function renderProducts(filtro = 'todos') {
+        const grid = document.getElementById('productGrid');
+        grid.innerHTML = '';
+        productos.filter(p => filtro === 'todos' || p.categoria === filtro).forEach(p => {
+            let priceHtml = `<div class="syne" style="font-size: 26px; font-weight: 700;">$${p.precio}</div>`;
+            if (p.precioOriginal) priceHtml = `<div class="syne" style="font-size: 26px; font-weight: 700; display: flex; gap: 12px;"><span style="text-decoration: line-through; color: var(--sand); font-size: 18px;">$${p.precioOriginal}</span><span style="color: var(--accent);">$${p.precio}</span></div>`;
+            
+            grid.innerHTML += `
+            <div class="product-card reveal" style="background: white; border: 1px solid var(--cream); display: flex; flex-direction: column;">
+                <div style="height: 400px; background: var(--paper); display: flex; align-items: center; justify-content: center; padding: 3rem;">
+                    <img src="{{ url_for('static', filename='img/') }}${p.imagen}" style="max-width: 100%; max-height: 100%; object-fit: contain; mix-blend-mode: multiply;">
+                </div>
+                <div style="padding: 3rem; flex-grow: 1;">
+                    <div class="mono" style="font-size: 10px; color: var(--sand); text-transform: uppercase;">${p.categoria}</div>
+                    <h3 style="font-family: 'Cormorant Garamond', serif; font-size: 28px; font-style: italic;">${p.nombre}</h3>
+                    <p style="font-family: 'Cormorant Garamond', serif; color: var(--warm-mid); font-size: 18px; line-height: 1.5;">${p.desc}</p>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem;">
+                        ${priceHtml}
+                        <form action="/agregar_carrito/${p.id}" method="POST" style="margin:0;">
+                            <button type="submit" style="background: var(--ink); color: white; border: none; padding: 12px 24px; font-family: 'DM Mono', monospace; cursor: pointer; text-transform: uppercase;">Seleccionar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>`;
+        });
+        setTimeout(() => document.querySelectorAll('.reveal').forEach(el => new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); })).observe(el)), 100);
+    }
+    function filtrar(cat, btn) { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); renderProducts(cat); }
+    document.addEventListener('DOMContentLoaded', () => renderProducts('todos'));
+</script>
+{% endblock %}

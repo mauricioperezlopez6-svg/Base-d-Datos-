@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div style="max-width: 500px; margin: 80px auto; padding: 4rem; background: var(--white); border: 1px solid var(--cream); text-align: center;">
+    <h1 class="syne" style="font-size: 32px; margin-bottom: 0.5rem; color: var(--ink);">Únete a Refill Go</h1>
+    <p class="mono" style="color: var(--warm-mid); margin-bottom: 3rem;">Comienza tu ciclo sin plásticos</p>
+    
+    {% if error %}
+    <div style="background: #fdeaea; color: #d32f2f; padding: 1rem; margin-bottom: 1.5rem; border-radius: 4px; font-family: 'DM Mono', monospace; font-size: 12px;">{{ error }}</div>
+    {% endif %}
+
+    <form method="POST" style="display: flex; flex-direction: column; gap: 1.5rem;">
+        <div class="form-field" style="text-align: left;">
+            <label class="form-label mono" style="font-size: 10px;">Nombre Completo</label>
+            <input type="text" name="nombre" class="form-input" placeholder="Ej. Juan Pérez" required>
+        </div>
+        <div class="form-field" style="text-align: left;">
+            <label class="form-label mono" style="font-size: 10px;">Correo Electrónico</label>
+            <input type="email" name="email" class="form-input" placeholder="juan@ejemplo.com" required>
+        </div>
+        <div class="form-field" style="text-align: left;">
+            <label class="form-label mono" style="font-size: 10px;">Contraseña</label>
+            <input type="password" name="password" class="form-input" required>
+        </div>
+        <button type="submit" class="hero-cta mono" style="width: 100%; justify-content: center; border: none; cursor: pointer; margin-top: 1rem;">Registrarme</button>
+    </form>
+    
+    <div style="margin-top: 3rem; border-top: 1px solid var(--cream); padding-top: 2rem;">
+        <p class="mono" style="font-size: 12px; color: var(--warm-mid);">¿Ya eres parte de Refill Go?</p>
+        <a href="{{ url_for('login') }}" style="color: var(--ink); font-family: 'Syne', sans-serif; font-weight: 700; text-decoration: none;">Iniciar Sesión aquí</a>
+    </div>
+</div>
+{% endblock %}

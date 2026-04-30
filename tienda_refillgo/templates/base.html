@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es" style="scroll-behavior: smooth;"> <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refill Go | Insumos a Granel</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --ink: #1a1a1a;
+            --paper: #f9f8f4;
+            --accent: #2e7d32;
+            --deep-green: #1b4332; /* Tonalidad verde fuerte para el footer */
+            --cream: #e0dcd3;
+            --white: #ffffff;
+            --warm-mid: #7a746a;
+        }
+        body { margin: 0; background: var(--paper); color: var(--ink); font-family: 'DM Mono', monospace; min-height: 100vh; display: flex; flex-direction: column; }
+        main { flex: 1; } /* Asegura que el footer siempre esté al fondo */
+        .syne { font-family: 'Syne', sans-serif; }
+        .mono { font-family: 'DM Mono', monospace; }
+        
+        /* Estilos para enlaces del footer */
+        .footer-link {
+            text-decoration: none;
+            color: var(--paper);
+            opacity: 0.7;
+            transition: 0.3s;
+            font-size: 12px;
+        }
+        .footer-link:hover { opacity: 1; color: var(--white); }
+    </style>
+</head>
+<body>
+
+    <nav style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 4rem; background: var(--white); border-bottom: 1px solid var(--cream); position: sticky; top: 0; z-index: 1000;">
+        
+        <div style="display: flex; gap: 2.5rem; align-items: center;">
+            <a href="{{ url_for('index') }}" class="mono" style="text-decoration: none; color: var(--ink); font-size: 11px; text-transform: uppercase;">Nuestros Productos</a>
+            <a href="#footer-impacto" class="mono" style="text-decoration: none; color: var(--ink); font-size: 11px; text-transform: uppercase;">Impacto</a>
+        </div>
+
+        <a href="{{ url_for('index') }}" class="syne" style="text-decoration: none; color: var(--ink); font-size: 24px; font-weight: 800; letter-spacing: -1px;">
+            REFILL<span style="color: var(--accent);">GO</span>
+        </a>
+
+        <div style="display: flex; gap: 2.5rem; align-items: center;">
+            {% if session.get('usuario_id') %}
+                <div style="display: flex; gap: 1.5rem; align-items: center;">
+                    <a href="{{ url_for('perfil') }}" class="mono" style="text-decoration: none; color: var(--accent); font-size: 11px; text-transform: uppercase; border-bottom: 1px solid var(--accent);">Panel Cliente</a>
+                    <a href="{{ url_for('admin') }}" class="mono" style="text-decoration: none; color: var(--ink); font-size: 11px; text-transform: uppercase; font-weight: bold;">Acceso Admin</a>
+                    <a href="{{ url_for('logout') }}" class="mono" style="text-decoration: none; color: var(--warm-mid); font-size: 11px; text-transform: uppercase; padding: 5px 10px; border: 1px solid var(--cream);">Salir</a>
+                </div>
+            {% else %}
+                <div style="display: flex; gap: 2rem; align-items: center;">
+                    <a href="{{ url_for('login') }}" class="mono" style="text-decoration: none; color: var(--ink); font-size: 11px; text-transform: uppercase; font-weight: 700;">Iniciar Sesión</a>
+                </div>
+            {% endif %}
+            <a href="{{ url_for('carrito') }}" style="text-decoration: none; font-size: 20px;">🛒</a>
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer id="footer-impacto" style="background: var(--deep-green); color: var(--paper); padding: 5rem 4rem 2rem 4rem; margin-top: 4rem;">
+        <div style="display: grid; grid-template-columns: 2fr 1fr 1fr 1.5fr; gap: 4rem; max-width: 1300px; margin: 0 auto;">
+            
+            <div>
+                <h2 class="syne" style="font-size: 22px; font-weight: 800; margin-bottom: 1.5rem;">REFILL<span style="color: #4ade80;">GO</span></h2>
+                <p style="font-family: 'Cormorant Garamond', serif; font-size: 18px; line-height: 1.4; opacity: 0.9; font-style: italic;">
+                    "Nuestra misión es transformar el consumo en Aguascalientes, eliminando los plásticos de un solo uso a través de un sistema circular de insumos de alta calidad."
+                 </p>
+                <p style="font-family: 'Cormorant Garamond', serif; font-size: 18px; line-height: 1.4; opacity: 0.9; font-style: italic;">
+                    "Mauricio Pérez López, fundador de Refill Go, se inspiró en la necesidad de reducir el desperdicio plástico en su comunidad. Con una visión clara de un futuro más sostenible, creó Refill Go para ofrecer a los consumidores una alternativa consciente y práctica."
+                <p style="font-family: 'Cormorant Garamond', serif; font-size: 18px; line-height: 1.4; opacity: 0.9; font-style: italic;">
+                    "Emiliano Rosas Villicaña, cofundador y responsable de operaciones, aporta su experiencia en logística y gestión para asegurar que cada producto llegue a nuestros clientes de manera eficiente y con el menor impacto ambiental posible."
+                </p>
+                <p style="font-family: 'Cormorant Garamond', serif; font-size: 18px; line-height: 1.4; opacity: 0.9; font-style: italic;">
+                    "Orquidea Jazmin García Delgado, nuestra experta en sostenibilidad y desarrollo de productos, se encarga de garantizar que cada insumo que ofrecemos no solo sea efectivo, sino también respetuoso con el medio ambiente, alineándose con nuestra misión de promover un consumo responsable."
+                </p>
+                </div>
+
+            <div>
+                <h4 class="mono" style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1.5rem; opacity: 0.5;">Explorar</h4>
+                <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                    <a href="{{ url_for('index') }}" class="footer-link mono">Nuestros Productos</a>
+                    <a href="{{ url_for('carrito') }}" class="footer-link mono">Carrito</a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="mono" style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1.5rem; opacity: 0.5;">Comunidad</h4>
+                <div style="display: flex; flex-direction: column; gap: 0.8rem;">
+                    <a href="{{ url_for('login') }}" class="footer-link mono">Iniciar Sesión</a>
+                    <a href="{{ url_for('registro') }}" class="footer-link mono">Unirse a Refill Go</a>
+                    <a href="#" class="footer-link mono">Puntos de Relleno</a>
+                </div>
+            </div>
+
+            <div style="text-align: right;">
+                <h4 class="mono" style="font-size: 10px; text-transform: uppercase; letter-spacing: 0.2em; margin-bottom: 1.5rem; opacity: 0.5;">Contacto</h4>
+                <p class="mono" style="font-size: 12px; margin-bottom: 0.5rem;">Aguascalientes, México</p>
+                <p class="mono" style="font-size: 12px; margin-bottom: 2rem;">mauricioperezlopez6@gmail.com
+                </p>
+                <div style="display: flex; gap: 1.5rem; justify-content: flex-end; font-size: 18px;">
+                    <span>📸</span> <span>📘</span> <span>🌿</span>
+                </div>
+            </div>
+        </div>
+
+        <div style="max-width: 1300px; margin: 4rem auto 0 auto; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 2rem; display: flex; justify-content: space-between; align-items: center; opacity: 0.4; font-size: 10px;" class="mono text-uppercase">
+            <p>© 2026 REFILL GO - COMERCIO ELECTRÓNICO LCE</p>
+            <p>HECHO CON CONCIENCIA EN AGS</p>
+        </div>
+    </footer>
+
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>
